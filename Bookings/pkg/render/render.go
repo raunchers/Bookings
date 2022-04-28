@@ -3,6 +3,7 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"github.com/justinas/nosurf"
 	"github.com/raunchers/Bookings/pkg/Models"
 	"github.com/raunchers/Bookings/pkg/config"
 	"html/template"
@@ -20,14 +21,14 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-// AddDefaultData
-func AddDefaultData(td *Models.TemplateData) *Models.TemplateData {
-
+// AddDefaultData sets the default data
+func AddDefaultData(td *Models.TemplateData, r *http.Request) *Models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate renders templates using html/tmpl
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *Models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *Models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -45,7 +46,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *Models.TemplateData)
 	// Bytes buffer
 	buf := new(bytes.Buffer)
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 
 	// Render the page
 	_ = t.Execute(buf, td)
