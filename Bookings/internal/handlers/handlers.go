@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/raunchers/Bookings/pkg/Models"
-	"github.com/raunchers/Bookings/pkg/config"
-	"github.com/raunchers/Bookings/pkg/render"
+	"github.com/raunchers/Bookings/internal/Models"
+	"github.com/raunchers/Bookings/internal/config"
+	"github.com/raunchers/Bookings/internal/render"
 	"log"
 	"net/http"
 )
